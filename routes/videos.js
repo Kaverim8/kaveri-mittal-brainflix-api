@@ -32,12 +32,14 @@ const updateVideo = {
     id: uniqid(),
     title: req.body.title,
     description: req.body.description
+    
 }
+console.log(req.body);
 
 const videos = readVideos();
 videos.push(updateVideo);
 fs.writeFileSync("./data/video-details.json", JSON.stringify(videos));
-// res.status(200).json(updateVideo);
+res.status(200).json(updateVideo);
 
 })
 
@@ -47,25 +49,8 @@ fs.writeFileSync("./data/video-details.json", JSON.stringify(videos));
 
 
 
-// router.post("/videos", (req, res) => {
-
-//     const newNote = {
-//         id: uniqid(),
-//         title: req.body.title,
-//         content: req.body.content
-//     }
-
-
-//       const notes = readNotes();
-//       notes.push(newNote);
-//       fs.writeFileSync("./data/video-details.json", JSON.stringify(notes));  
-//     // on line 54 we can do error handling and other stuff as well
-//       res.status(200).json(newNote);
-// })
-
-
-
-
-
 
 module.exports = router;
+
+
+// req.body.image ?? 'hardcoded file path'
