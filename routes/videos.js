@@ -28,18 +28,30 @@ router.get("/videos/:id", (req, res) => {
 
 
 router.post("/videos", (req, res, next) => {
+
+const imagePath = "http://localhost:8080/images/image2.jpeg"
+
 const updateVideo = {
     id: uniqid(),
     title: req.body.title,
-    description: req.body.description
-    
+    description: req.body.description,
+    image: imagePath
 }
-console.log(req.body);
+// console.log(req.body);
 
 const videos = readVideos();
 videos.push(updateVideo);
 fs.writeFileSync("./data/video-details.json", JSON.stringify(videos));
 res.status(200).json(updateVideo);
+
+})
+
+
+router.get("/videos/:id/comments", (req, res) => {
+    const commentsJson = fs.readFileSync('./data/video-details.json');
+    const parsedComments = JSON.parse(commentsJson);
+    console.log(parsedComments);
+
 
 })
 

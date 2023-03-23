@@ -9,6 +9,9 @@ app.use(cors());
 app.use(express.json());
 // console.log("hello world");
 
+app.use(express.static("public"));
+
+
 app.use("/", videos );
 
 app.listen(PORT, function(err){
