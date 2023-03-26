@@ -3,11 +3,12 @@ const app = express();
 const PORT = 8080;
 const videos = require("./routes/videos");
 const cors = require('cors');
+const fs = require("fs");
 
 app.use(cors());
 
 app.use(express.json());
-// console.log("hello world");
+
 
 app.use(express.static("public"));
 
