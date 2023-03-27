@@ -45,14 +45,7 @@ router.post("/videos", (req, res ) => {
         video: "https://project-2-api.herokuapp.com/stream",
         timestamp: Date.now(),
         duration: "4:50",
-        comments: [
-            // {
-            //     id: uniqid(),
-            //     name: req.body.name,
-            //     comment: req.body.comment,
-            //     timestamp: Date.now()
-            // }] 
-        ]
+        comments: [ ]
     }
 
     const videos = readVideos();
@@ -63,7 +56,6 @@ router.post("/videos", (req, res ) => {
 
 
 router.post("/videos/:id/comments", (req, res) => {
-
     const updateComment = {
         id: uniqid(),
         name: "kaveri",
@@ -82,7 +74,6 @@ router.post("/videos/:id/comments", (req, res) => {
 router.delete("/videos/:id/comments/:commentId", (req, res) => {
     const videoId = req.params.id;
     const commentId = req.params.commentId;
-
 
     const videos = readVideos();
     const video = videos.find((video) => video.id === videoId);
@@ -109,9 +100,17 @@ router.put("/videos/:id/likes", (req, res) => {
         res.status(404).json({ message: "No video with that id exists" });
     } else {
         const video = videos[videoIndex];
-        console.log(video.likes);
-        video.likes++;
-        console.log(video.likes);
+
+        let likes = video.likes;
+        if (typeof likes === "string") {
+            likes = parseFloat(likes.replace(/,/g, ""));
+            likes = Number.isNaN(likes) ? 0 : likes;
+        } else {
+            likes = likes || 0;
+        }
+        likes += 1;
+
+        video.likes = likes.toLocaleString();
 
         fs.writeFileSync("./data/video-details.json", JSON.stringify(videos));
         res.status(200).json(video);
@@ -119,11 +118,5 @@ router.put("/videos/:id/likes", (req, res) => {
 });
 
 
-
-
-
-
 module.exports = router;
 
-
-// req.body.image ?? 'hardcoded file path'
